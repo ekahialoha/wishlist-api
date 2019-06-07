@@ -1,5 +1,4 @@
 class ListsController < ApplicationController
-
     def index
         render json: List.all
     end
@@ -19,5 +18,4 @@ class ListsController < ApplicationController
     def delete
         render json: List.find(params['id'])
     end
-
 end
