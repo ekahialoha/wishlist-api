@@ -5,4 +5,9 @@ Rails.application.routes.draw do
     post '/lists', to: 'lists#create'
     put '/lists/:id', to: 'lists#update'
     delete '/lists/:id', to: 'lists#delete'
+
+    # ITEMS
+    post '/items', to: 'items#create'
+    put '/items/:id', to: 'items#update'
+    delete '/items/:id', to: 'items#delete'
 end
