@@ -18,4 +18,8 @@ class ListsController < ApplicationController
     def delete
         render json: List.delete(params['id'])
     end
+
+    def random
+        render json: List.random
+    end
 end

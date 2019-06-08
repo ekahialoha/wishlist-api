@@ -94,4 +94,17 @@ class List
         results = DB.exec_params('DELETE FROM wishlists WHERE id = $1', [id.to_i])
         {'deleted' => true}
     end
+
+    def self.random
+        results = DB.exec(
+            <<-SQL
+                SELECT id
+                FROM wishlists
+                ORDER BY RANDOM()
+                LIMIT 1;
+            SQL
+        )
+
+        self.find (results.first['id'])
+    end
 end
