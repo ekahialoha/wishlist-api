@@ -105,6 +105,8 @@ class List
             SQL
         )
 
-        self.find (results.first['id'])
+        result = self.find (results.first['id'])
+        result['items'].shuffle!
+        result
     end
 end
