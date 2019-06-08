@@ -7,7 +7,7 @@ class List
     end
 
     def self.all
-        results = DB.exec('SELECT w.* FROM wishlists w')
+        results = DB.exec('SELECT * FROM wishlists;')
 
         results.map do |result|
             {
@@ -32,13 +32,12 @@ class List
             FROM wishlists w
             LEFT JOIN items i
                 ON w.id = i.list_id
-            WHERE w.id = $1
+            WHERE w.id = $1;
         SQL
 
         return {error: 'No results found'} if !results.first
 
         items_list = []
-        p results.first
         results.each do |result|
             if result['items_id']
                 items_list << {
@@ -57,5 +56,42 @@ class List
             'image' => results.first['image'],
             'items' => items_list
         }
+    end
+
+    def self.create opts
+        results = DB.exec_params(<<-SQL, [opts['name'], opts['description'], opts['image']])
+            INSERT INTO wishlists (name, description, image)
+            VALUES ($1, $2, $3)
+            RETURNING id, name, description, image;
+        SQL
+
+        {
+            'id' => results.first['id'].to_i,
+            'name' => results.first['name'],
+            'description' => results.first['description'],
+            'image' => results.first['image']
+        }
+    end
+
+    def self.update (id, opts)
+        results = DB.exec_params(<<-SQL, [id.to_i, opts['name'], opts['description'], opts['image']])
+            UPDATE wishlists
+            SET name = $2, description = $3, image = $4
+            WHERE id = $1
+            RETURNING id, name, description, image;
+        SQL
+
+        result = results.first
+        {
+            'id' => result['id'].to_i,
+            'name' => result['name'],
+            'description' => result['description'],
+            'image' => result['image']
+        }
+    end
+
+    def self.delete id
+        results = DB.exec_params('DELETE FROM wishlists WHERE id = $1', [id.to_i])
+        {'deleted' => true}
     end
 end

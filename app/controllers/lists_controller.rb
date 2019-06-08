@@ -8,14 +8,14 @@ class ListsController < ApplicationController
     end
 
     def create
-        render json: List.find(params['list'])
+        render json: List.create(params['list'])
     end
 
     def update
-        render json: List.find(params['id'], params['list'])
+        render json: List.update(params['id'], params['list'])
     end
 
     def delete
-        render json: List.find(params['id'])
+        render json: List.delete(params['id'])
     end
 end
