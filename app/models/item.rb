@@ -42,6 +42,7 @@ class Item
     end
 
     def self.delete(id)
+        results = DB.exec_params('DELETE FROM items WHERE id = $1', [id.to_i])
         { delete: true }
     end
 end
