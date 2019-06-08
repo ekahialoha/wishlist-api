@@ -9,7 +9,7 @@ class List
     def self.all
         results = DB.exec('SELECT w.* FROM wishlists w')
 
-        results.each do |result|
+        results.map do |result|
             {
                 'id' => result['id'].to_i,
                 'name' => result['name'],
@@ -25,8 +25,8 @@ class List
             SELECT
                 w.*,
                 i.id AS items_id,
-                i.name,
-                i.image,
+                i.name AS items_name,
+                i.image AS items_image,
                 i.purchased,
                 i.purchased_by
             FROM wishlists w
@@ -37,24 +37,24 @@ class List
 
         return {error: 'No results found'} if !results.first
 
-        result = results.first
         items_list = []
+        p results.first
         results.each do |result|
             if result['items_id']
                 items_list << {
                     'id' => result['items_id'].to_i,
-                    'name' => result['name'],
-                    'image' => result['image'],
+                    'name' => result['items_name'],
+                    'image' => result['items_image'],
                     'purchased' => result['purchased'] == 't' ? true : false,
                     'purchased_by' => result['purchased_by']
                 }
             end
         end
         {
-            'id' => result['id'].to_i,
-            'name' => result['name'],
-            'description' => result['description'],
-            'image' => result['image'],
+            'id' => results.first['id'].to_i,
+            'name' => results.first['name'],
+            'description' => results.first['description'],
+            'image' => results.first['image'],
             'items' => items_list
         }
     end
