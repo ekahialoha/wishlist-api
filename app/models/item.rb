@@ -23,8 +23,22 @@ class Item
         }
     end
 
-    def self.update(id, input)
-        { update: true }
+    def self.update(id, opts)
+        results = DB.exec_params(<<-SQL, [id.to_i, opts['list_id'].to_i, opts['name'], opts['image'], opts['purchased'], opts['purchased_by']])
+            UPDATE items
+            SET list_id = $2, name = $3, image = $4, purchased = $5, purchased_by = $6
+            WHERE id = $1
+            RETURNING id, list_id, name, image, purchased, purchased_by;
+        SQL
+        result = results.first
+        {
+            'id' => result['id'].to_i,
+            'list_id' => result['list_id'].to_i,
+            'name' => result['name'],
+            'image' => result['image'],
+            'purchased' => result == 't' ? true : false,
+            'purchased_by' => result['purchased_by']
+        }
     end
 
     def self.delete(id)
