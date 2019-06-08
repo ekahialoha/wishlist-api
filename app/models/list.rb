@@ -72,4 +72,26 @@ class List
             'image' => results.first['image']
         }
     end
+
+    def self.update (id, opts)
+        results = DB.exec_params(<<-SQL, [id.to_i, opts['name'], opts['description'], opts['image']])
+            UPDATE wishlists
+            SET name = $2, description = $3, image = $4
+            WHERE id = $1
+            RETURNING id, name, description, image;
+        SQL
+
+        result = results.first
+        {
+            'id' => result['id'].to_i,
+            'name' => result['name'],
+            'description' => result['description'],
+            'image' => result['image']
+        }
+    end
+
+    def self.delete id
+        results = DB.exec_params('DELETE FROM wishlists WHERE id = $1', [id.to_i])
+        {'deleted' => true}
+    end
 end
