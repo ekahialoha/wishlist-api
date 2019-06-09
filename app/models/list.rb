@@ -6,8 +6,17 @@ class List
         DB = PG.connect(host: "localhost", port: 5432, dbname: 'wishlist-api_development')
     end
 
-    def self.all
-        results = DB.exec('SELECT * FROM wishlists;')
+    def self.all(search_query = nil)
+
+        if search_query.nil?
+            results = DB.exec('SELECT * FROM wishlists;')
+        else
+            results = DB.exec_params(<<-SQL, ["%#{search_query}%"])
+                SELECT *
+                FROM wishlists
+                WHERE name ILIKE $1;
+            SQL
+        end
 
         results.map do |result|
             {

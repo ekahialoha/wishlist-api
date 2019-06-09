@@ -3,6 +3,10 @@ class ListsController < ApplicationController
         render json: List.all
     end
 
+    def search
+        render json: List.all(params['query'])
+    end
+
     def show
         render json: List.find(params['id'])
     end
