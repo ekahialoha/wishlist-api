@@ -99,8 +99,9 @@ class List
     def self.random
         results = DB.exec(
             <<-SQL
-                SELECT id
-                FROM wishlists
+                SELECT w.id
+                FROM wishlists w
+                WHERE id IN (SELECT DISTINCT i.list_id FROM items i WHERE i.list_id = w.id)
                 ORDER BY RANDOM()
                 LIMIT 1;
             SQL
