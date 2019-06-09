@@ -42,6 +42,7 @@ class List
             if result['items_id']
                 items_list << {
                     'id' => result['items_id'].to_i,
+                    'list_id' => result['id'].to_i,
                     'name' => result['items_name'],
                     'image' => result['items_image'],
                     'purchased' => result['purchased'] == 't' ? true : false,
