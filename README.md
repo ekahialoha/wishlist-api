@@ -1,24 +1,10 @@
-# README
+WishList
+======
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+RESTful API backend using Rails/PostgreSQL. Consumed by [React Frontend](https://github.com/ekahialoha/wishlist-frontend).
 
-Things you may want to cover:
+For more info, see Frontend Repository: https://github.com/ekahialoha/wishlist-frontend
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Authors
+- Molly Stone - [GitHub](https://github.com/mstone89) - [LinkedIn](https://www.linkedin.com/in/mollycstone/)
+- Christian Kelsom-Martin - [GitHub](https://github.com/ekahialoha) - [LinkedIn](https://www.linkedin.com/in/ckelsom-martin/)
